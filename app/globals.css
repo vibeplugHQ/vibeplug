@@ -1,26 +1,111 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ink: #08080a;
+  --color-surface: #0d0d11;
+  --color-surface-2: #131319;
+  --color-line: #232329;
+  --color-line-strong: #34343d;
+  --color-muted: #8b8b95;
+  --color-faint: #5d5d66;
+  --color-plug: #c5f74f;
+  --color-plug-dim: #a7d63f;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-marquee-rev: marquee-rev 40s linear infinite;
+  --animate-rise: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes marquee-rev {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: #ededf0;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-plug);
+    color: #08080a;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-line-strong);
+    border-radius: 9999px;
+    border: 2px solid var(--color-ink);
+  }
+}
+
+/* Dotted / grid backdrops */
+@utility bg-dots {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--color-line-strong) 85%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+@utility bg-grid {
+  background-image: linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-line) 75%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-line) 75%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 60px 60px;
+}
+
+/* Soft radial spotlight used behind hero / CTA */
+@utility glow-plug {
+  background: radial-gradient(
+    50% 50% at 50% 0%,
+    color-mix(in oklab, var(--color-plug) 22%, transparent) 0%,
+    transparent 70%
+  );
 }
