@@ -42,7 +42,7 @@ export function Hero() {
           <h1 className="mt-6 text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
             풀스택 기능을
             <br />
-            <span className="text-plug">복사 · 붙여넣기</span>로.
+            <span className="text-plug">복사 · 붙여넣기</span>로
           </h1>
 
           <p className="mx-auto mt-6 max-w-xl text-pretty text-lg leading-8 text-muted">
