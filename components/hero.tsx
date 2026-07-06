@@ -58,14 +58,14 @@ export function Hero() {
             <div className="flex w-full flex-col gap-inline-lg sm:flex-row">
               <a
                 href="#marketplace"
-                className="flex h-11 flex-1 items-center justify-center gap-inline-md rounded-xl bg-primary px-field-md text-label-lg text-primary-foreground transition-opacity hover:opacity-90"
+                className="flex h-11 flex-1 items-center justify-center gap-inline-md rounded-xl bg-primary p-field-md text-label-lg text-primary-foreground transition-opacity hover:opacity-90"
               >
                 마켓플레이스 둘러보기
                 <ArrowIcon className="size-4" />
               </a>
               <a
                 href="#how"
-                className="flex h-11 flex-1 items-center justify-center rounded-xl border border-border bg-card/50 px-field-md text-label-lg text-neutral-200 transition-colors hover:border-neutral-700"
+                className="flex h-11 flex-1 items-center justify-center rounded-xl border border-border bg-card/50 p-field-md text-label-lg text-neutral-200 transition-colors hover:border-neutral-700"
               >
                 동작 방식 보기
               </a>

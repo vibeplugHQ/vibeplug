@@ -40,7 +40,7 @@ export function Marketplace() {
       <div className="mx-auto max-w-layout-lg px-field-md py-section-md sm:py-section-lg">
         <div className="flex flex-col gap-field-lg sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-layout-sm">
-            <p className="font-mono text-caption uppercase tracking-[0.2em] text-primary">
+            <p className="text-caption uppercase tracking-[0.2em] text-primary">
               마켓플레이스
             </p>
             <h2 className="mt-inline-lg text-balance text-display-md tracking-tight">
