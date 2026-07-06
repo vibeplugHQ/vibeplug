@@ -36,35 +36,35 @@ export function Marketplace() {
   }, [filter, query]);
 
   return (
-    <section id="marketplace" className="scroll-mt-20 border-t border-line">
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-xl">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-plug">
+    <section id="marketplace" className="scroll-mt-anchor border-t border-border">
+      <div className="mx-auto max-w-layout-lg px-field-md py-section-md sm:py-section-lg">
+        <div className="flex flex-col gap-field-lg sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-layout-sm">
+            <p className="font-mono text-caption uppercase tracking-[0.2em] text-primary">
               마켓플레이스
             </p>
-            <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+            <h2 className="mt-inline-lg text-balance text-display-md tracking-tight">
               필요한 기능을 골라 꽂으세요
             </h2>
-            <p className="mt-3 text-pretty text-muted">
+            <p className="mt-inline-lg text-pretty text-muted-foreground">
               모든 plug은 프론트엔드 · API · 데이터베이스 마이그레이션을 함께
               제공합니다. 설치되는 코드는 전부 당신의 저장소 안에 남습니다.
             </p>
           </div>
 
-          <label className="relative block w-full sm:w-72">
-            <SearchIcon className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-faint" />
+          <label className="relative block w-full sm:w-layout-sm">
+            <SearchIcon className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-500" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="plug 검색…"
-              className="h-11 w-full rounded-xl border border-line bg-surface pl-9 pr-3 text-sm text-zinc-100 outline-none transition-colors placeholder:text-faint focus:border-plug/60"
+              className="h-11 w-full rounded-xl border border-border bg-card pl-grid-gutter-x pr-inline-lg text-label-lg text-neutral-100 outline-none transition-colors placeholder:text-neutral-500 focus:border-primary/60"
             />
           </label>
         </div>
 
         {/* Filter pills */}
-        <div className="mt-8 flex flex-wrap gap-2">
+        <div className="mt-grid-gutter-x flex flex-wrap gap-inline-md">
           {FILTERS.map((f) => {
             const active = f === filter;
             return (
@@ -73,32 +73,32 @@ export function Marketplace() {
                 type="button"
                 onClick={() => setFilter(f)}
                 aria-pressed={active}
-                className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                className={`rounded-full border px-field-md py-inline-sm text-label-lg transition-colors ${
                   active
-                    ? "border-plug bg-plug text-ink"
-                    : "border-line bg-surface text-muted hover:border-line-strong hover:text-zinc-200"
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-muted-foreground hover:border-neutral-700 hover:text-neutral-200"
                 }`}
               >
                 {f === "All" ? "전체" : f}
               </button>
             );
           })}
-          <span className="ml-auto self-center font-mono text-xs text-faint">
+          <span className="ml-auto self-center font-mono text-caption text-neutral-500">
             {results.length}개 결과
           </span>
         </div>
 
         {/* Grid */}
         {results.length > 0 ? (
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-grid-gutter-x grid grid-cols-1 gap-field-md sm:grid-cols-2 lg:grid-cols-3">
             {results.map((plug) => (
               <PlugCard key={plug.slug} plug={plug} />
             ))}
           </div>
         ) : (
-          <div className="mt-10 rounded-2xl border border-dashed border-line py-16 text-center">
-            <p className="text-muted">
-              <span className="font-mono text-zinc-300">“{query}”</span>에 맞는
+          <div className="mt-grid-gutter-x rounded-2xl border border-dashed border-border py-grid-gutter-x text-center">
+            <p className="text-muted-foreground">
+              <span className="font-mono text-neutral-300">“{query}”</span>에 맞는
               plug이 없습니다.
             </p>
             <button
@@ -107,7 +107,7 @@ export function Marketplace() {
                 setQuery("");
                 setFilter("All");
               }}
-              className="mt-3 text-sm font-medium text-plug hover:underline"
+              className="mt-inline-lg text-label-lg text-primary hover:underline"
             >
               필터 초기화
             </button>
@@ -120,52 +120,52 @@ export function Marketplace() {
 
 function PlugCard({ plug }: { plug: Plug }) {
   return (
-    <article className="group flex flex-col rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-line-strong">
+    <article className="group flex flex-col rounded-2xl border border-border bg-card p-field-md transition-colors hover:border-neutral-700">
       <div className="flex items-start justify-between">
-        <span className="flex size-11 items-center justify-center rounded-xl border border-line bg-surface-2 text-zinc-300 transition-colors group-hover:border-plug/40 group-hover:text-plug">
+        <span className="flex size-11 items-center justify-center rounded-xl border border-border bg-muted text-neutral-300 transition-colors group-hover:border-primary/40 group-hover:text-primary">
           <PlugIcon name={plug.icon} className="size-5.5" />
         </span>
         {plug.official ? (
-          <span className="inline-flex items-center gap-1 rounded-full border border-plug/30 bg-plug/10 px-2 py-0.5 text-[11px] font-medium text-plug">
+          <span className="inline-flex items-center gap-text-xs rounded-full border border-primary/30 bg-primary/10 px-field-sm py-text-xs text-caption text-primary">
             <StarIcon className="size-3" />
             Official
           </span>
         ) : (
-          <span className="rounded-full border border-line px-2 py-0.5 text-[11px] text-faint">
+          <span className="rounded-full border border-border px-field-sm py-text-xs text-caption text-neutral-500">
             Community
           </span>
         )}
       </div>
 
-      <h3 className="mt-4 text-base font-semibold tracking-tight text-zinc-100">
+      <h3 className="mt-text-md text-title-3 tracking-tight text-neutral-100">
         {plug.name}
       </h3>
-      <p className="mt-1.5 text-sm leading-6 text-muted">{plug.tagline}</p>
+      <p className="mt-inline-sm text-body-md text-muted-foreground">{plug.tagline}</p>
 
-      <div className="mt-4 flex flex-wrap gap-1.5">
+      <div className="mt-text-md flex flex-wrap gap-inline-sm">
         {plug.includes.slice(0, 3).map((item) => (
           <span
             key={item}
-            className="inline-flex items-center gap-1 rounded-md bg-surface-2 px-2 py-1 font-mono text-[11px] text-zinc-400"
+            className="inline-flex items-center gap-text-xs rounded-md bg-muted px-field-sm py-text-xs font-mono text-caption text-neutral-400"
           >
-            <CheckIcon className="size-3 text-plug-dim" />
+            <CheckIcon className="size-3 text-accent" />
             {item}
           </span>
         ))}
         {plug.includes.length > 3 && (
-          <span className="inline-flex items-center rounded-md bg-surface-2 px-2 py-1 font-mono text-[11px] text-faint">
+          <span className="inline-flex items-center rounded-md bg-muted px-field-sm py-text-xs font-mono text-caption text-neutral-500">
             +{plug.includes.length - 3}
           </span>
         )}
       </div>
 
-      <div className="mt-5 flex items-center justify-between border-t border-line pt-4 font-mono text-[11px] text-faint">
-        <code className="truncate text-zinc-400">
+      <div className="mt-text-md flex items-center justify-between border-t border-border pt-field-md font-mono text-caption text-neutral-500">
+        <code className="truncate text-neutral-400">
           vibeplug add {plug.slug}
         </code>
-        <span className="flex shrink-0 items-center gap-3 pl-3">
+        <span className="flex shrink-0 items-center gap-inline-lg pl-inline-lg">
           <span>{formatInstalls(plug.installs)}</span>
-          <span className="text-line-strong">·</span>
+          <span className="text-neutral-700">·</span>
           <span>v{plug.version}</span>
         </span>
       </div>

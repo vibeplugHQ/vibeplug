@@ -24,13 +24,13 @@ export function CopyCommand({
       type="button"
       onClick={copy}
       aria-label={`Copy "${command}" to clipboard`}
-      className={`group flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 font-mono text-sm text-zinc-200 transition-colors hover:border-line-strong ${className}`}
+      className={`group flex items-center gap-inline-lg rounded-xl border border-border bg-card px-field-md py-inline-lg font-mono text-body-md text-neutral-200 transition-colors hover:border-neutral-700 ${className}`}
     >
-      <span className="select-none text-plug">$</span>
+      <span className="select-none text-primary">$</span>
       <span className="truncate">{command}</span>
-      <span className="ml-auto flex size-7 shrink-0 items-center justify-center rounded-md text-faint transition-colors group-hover:text-zinc-200">
+      <span className="ml-auto flex size-7 shrink-0 items-center justify-center rounded-md text-neutral-500 transition-colors group-hover:text-neutral-200">
         {copied ? (
-          <CheckIcon className="size-4 text-plug" />
+          <CheckIcon className="size-4 text-primary" />
         ) : (
           <CopyIcon className="size-4" />
         )}

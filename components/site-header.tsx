@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { GitHubIcon, Logo } from "@/components/icons";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const NAV = [
   { label: "Marketplace", href: "#marketplace" },
@@ -14,43 +15,44 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/80 bg-ink/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-        <a href="#top" className="flex items-center gap-2.5">
-          <span className="flex size-8 items-center justify-center rounded-lg bg-plug text-ink">
+    <header className="sticky top-0 z-header border-b border-border/80 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-gnb max-w-layout-lg items-center justify-between px-field-md">
+        <a href="#top" className="flex items-center gap-inline-md">
+          <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Logo className="size-5" />
           </span>
-          <span className="text-[15px] font-semibold tracking-tight">
+          <span className="text-title-3 tracking-tight">
             Vibeplug
           </span>
-          <span className="hidden rounded-full border border-line px-2 py-0.5 font-mono text-[10px] text-muted sm:inline">
+          <span className="hidden rounded-full border border-border px-field-sm py-text-xs font-mono text-caption text-muted-foreground sm:inline">
             beta
           </span>
         </a>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-text-xs md:flex">
           {NAV.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-zinc-100"
+              className="rounded-md px-inline-lg py-field-sm text-body-md text-muted-foreground transition-colors hover:text-neutral-100"
             >
               {item.label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-inline-md">
+          <ThemeToggle />
           <a
             href="#"
             aria-label="GitHub repository"
-            className="hidden size-9 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:border-line-strong hover:text-zinc-100 sm:flex"
+            className="hidden size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-neutral-700 hover:text-neutral-100 sm:flex"
           >
             <GitHubIcon className="size-4.5" />
           </a>
           <a
             href="#marketplace"
-            className="hidden rounded-lg bg-plug px-4 py-2 text-sm font-semibold text-ink transition-opacity hover:opacity-90 sm:inline-block"
+            className="hidden rounded-lg bg-primary px-field-md py-field-sm text-label-lg text-primary-foreground transition-opacity hover:opacity-90 sm:inline-block"
           >
             Browse plugs
           </a>
@@ -59,7 +61,7 @@ export function SiteHeader() {
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={open}
-            className="flex size-9 items-center justify-center rounded-lg border border-line text-zinc-100 md:hidden"
+            className="flex size-9 items-center justify-center rounded-lg border border-border text-neutral-100 md:hidden"
           >
             <span className="relative block h-3 w-4">
               <span
@@ -78,13 +80,13 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <nav className="border-t border-line bg-ink px-5 py-3 md:hidden">
+        <nav className="border-t border-border bg-background px-field-md py-inline-lg md:hidden">
           {NAV.map((item) => (
             <a
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="block rounded-md px-2 py-2.5 text-sm text-muted hover:text-zinc-100"
+              className="block rounded-md px-field-sm py-field-sm text-body-md text-muted-foreground hover:text-neutral-100"
             >
               {item.label}
             </a>
@@ -92,7 +94,7 @@ export function SiteHeader() {
           <a
             href="#marketplace"
             onClick={() => setOpen(false)}
-            className="mt-2 block rounded-lg bg-plug px-4 py-2.5 text-center text-sm font-semibold text-ink"
+            className="mt-text-sm block rounded-lg bg-primary px-field-md py-field-sm text-center text-label-lg text-primary-foreground"
           >
             Browse plugs
           </a>

@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+// Pretendard — body / UI / headings (--font-sans, --font-heading in globals.css)
+const pretendard = localFont({
+  src: "./fonts/PretendardVariable.woff2",
+  variable: "--font-pretendard",
+  weight: "45 920",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// JetBrains Mono — code / terminal (--font-mono in globals.css)
+const jetbrainsMono = localFont({
+  src: "./fonts/JetBrainsMono[wght].ttf",
+  variable: "--font-jetbrains-mono",
+  weight: "100 800",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -33,9 +39,9 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`dark ${pretendard.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-ink text-[#ededf0]">{children}</body>
+      <body className="min-h-full bg-background text-foreground">{children}</body>
     </html>
   );
 }

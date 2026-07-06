@@ -27,46 +27,46 @@ const SMALL = [
 
 export function Features() {
   return (
-    <section id="features" className="scroll-mt-20 border-t border-line">
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
-        <div className="max-w-xl">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-plug">
+    <section id="features" className="scroll-mt-anchor border-t border-border">
+      <div className="mx-auto max-w-layout-lg px-field-md py-section-md sm:py-section-lg">
+        <div className="max-w-layout-sm">
+          <p className="font-mono text-caption uppercase tracking-[0.2em] text-primary">
             왜 바이브플러그인가
           </p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="mt-inline-lg text-balance text-display-md tracking-tight">
             컴포넌트가 아니라 기능을 가져옵니다
           </h2>
-          <p className="mt-3 text-pretty text-muted">
+          <p className="mt-inline-lg text-pretty text-muted-foreground">
             UI 한 조각이 아니라, 동작하는 기능 전체를 가져옵니다. 화면부터
             데이터베이스까지 이미 연결된 채로.
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="mt-grid-gutter-x grid grid-cols-1 gap-field-md lg:grid-cols-3">
           {/* Big tile — full stack */}
-          <div className="flex flex-col justify-between rounded-2xl border border-line bg-surface p-7 lg:col-span-2">
+          <div className="flex flex-col justify-between rounded-2xl border border-border bg-card p-field-lg lg:col-span-2">
             <div>
-              <h3 className="text-xl font-semibold tracking-tight">
+              <h3 className="text-title-2 tracking-tight">
                 하나의 plug, 풀스택 한 세트
               </h3>
-              <p className="mt-2 max-w-md text-sm leading-7 text-muted">
-                <code className="font-mono text-plug">vibeplug add</code> 한 번이면
+              <p className="mt-text-sm max-w-layout-sm text-body-md text-muted-foreground">
+                <code className="font-mono text-primary">vibeplug add</code> 한 번이면
                 세 계층이 동시에 설치되고, 서로 이미 연결되어 있습니다.
               </p>
             </div>
-            <div className="mt-7 space-y-2.5">
+            <div className="mt-text-lg space-y-inline-md">
               {STACK.map((row) => (
                 <div
                   key={row.label}
-                  className="flex items-center gap-4 rounded-xl border border-line bg-surface-2 px-4 py-3"
+                  className="flex items-center gap-field-md rounded-xl border border-border bg-muted px-field-md py-inline-lg"
                 >
-                  <span className="flex w-12 shrink-0 justify-center rounded-md bg-plug/10 py-1 font-mono text-xs font-semibold text-plug">
+                  <span className="flex w-12 shrink-0 justify-center rounded-md bg-primary/10 py-text-xs font-mono text-caption text-primary">
                     {row.label}
                   </span>
-                  <code className="font-mono text-sm text-zinc-300">
+                  <code className="font-mono text-body-md text-neutral-300">
                     {row.path}
                   </code>
-                  <span className="ml-auto hidden text-xs text-faint sm:block">
+                  <span className="ml-auto hidden text-caption text-neutral-500 sm:block">
                     {row.note}
                   </span>
                 </div>
@@ -75,20 +75,20 @@ export function Features() {
           </div>
 
           {/* Own the code (first small, made taller via content) */}
-          <div className="flex flex-col rounded-2xl border border-line bg-surface p-7">
-            <h3 className="text-lg font-semibold tracking-tight">
+          <div className="flex flex-col rounded-2xl border border-border bg-card p-field-lg">
+            <h3 className="text-title-3 tracking-tight">
               {SMALL[0].title}
             </h3>
-            <p className="mt-2 flex-1 text-sm leading-7 text-muted">
+            <p className="mt-text-sm flex-1 text-body-md text-muted-foreground">
               {SMALL[0].body}
             </p>
-            <ul className="mt-5 space-y-2">
+            <ul className="mt-text-md space-y-inline-md">
               {["벤더 잠금 없음", "PR 리뷰 그대로", "버전 핀 없음"].map((t) => (
                 <li
                   key={t}
-                  className="flex items-center gap-2 text-sm text-zinc-300"
+                  className="flex items-center gap-inline-md text-body-md text-neutral-300"
                 >
-                  <CheckIcon className="size-4 shrink-0 text-plug" />
+                  <CheckIcon className="size-4 shrink-0 text-primary" />
                   {t}
                 </li>
               ))}
@@ -99,31 +99,31 @@ export function Features() {
           {SMALL.slice(1).map((f) => (
             <div
               key={f.title}
-              className="rounded-2xl border border-line bg-surface p-7"
+              className="rounded-2xl border border-border bg-card p-field-lg"
             >
-              <h3 className="text-lg font-semibold tracking-tight">{f.title}</h3>
-              <p className="mt-2 text-sm leading-7 text-muted">{f.body}</p>
+              <h3 className="text-title-3 tracking-tight">{f.title}</h3>
+              <p className="mt-text-sm text-body-md text-muted-foreground">{f.body}</p>
             </div>
           ))}
 
           {/* Wide publish banner */}
-          <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-line bg-gradient-to-br from-surface to-surface-2 p-7 sm:flex-row sm:items-center lg:col-span-3">
+          <div className="flex flex-col items-start justify-between gap-field-lg rounded-2xl border border-border bg-gradient-to-br from-card to-muted p-field-lg sm:flex-row sm:items-center lg:col-span-3">
             <div>
-              <h3 className="text-xl font-semibold tracking-tight">
+              <h3 className="text-title-2 tracking-tight">
                 직접 만든 plug을 올리세요
               </h3>
-              <p className="mt-2 max-w-lg text-sm leading-7 text-muted">
+              <p className="mt-text-sm max-w-layout-sm text-body-md text-muted-foreground">
                 오픈 레지스트리입니다. 사내 기능이든 공개 패키지든, 한 줄로
                 게시하고 팀 전체가 같은 방식으로 설치하게 만드세요.
               </p>
             </div>
-            <div className="flex shrink-0 flex-col items-stretch gap-3">
-              <code className="rounded-lg border border-line bg-ink px-4 py-2.5 font-mono text-sm text-zinc-300">
+            <div className="flex shrink-0 flex-col items-stretch gap-inline-lg">
+              <code className="rounded-lg border border-border bg-background px-field-md py-field-sm font-mono text-body-md text-neutral-300">
                 $ vibeplug publish ./my-plug
               </code>
               <a
                 href="#"
-                className="inline-flex items-center justify-center gap-2 text-sm font-medium text-plug hover:underline"
+                className="inline-flex items-center justify-center gap-inline-md text-label-lg text-primary hover:underline"
               >
                 레지스트리 문서 보기
                 <ArrowIcon className="size-4" />

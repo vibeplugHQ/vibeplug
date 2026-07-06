@@ -21,31 +21,31 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className="scroll-mt-20 border-t border-line bg-surface/30">
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
-        <div className="max-w-xl">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-plug">
+    <section id="how" className="scroll-mt-anchor border-t border-border bg-card/30">
+      <div className="mx-auto max-w-layout-lg px-field-md py-section-md sm:py-section-lg">
+        <div className="max-w-layout-sm">
+          <p className="font-mono text-caption uppercase tracking-[0.2em] text-primary">
             동작 방식
           </p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="mt-inline-lg text-balance text-display-md tracking-tight">
             세 단계면 기능 하나가 끝납니다
           </h2>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-3">
+        <div className="mt-grid-gutter-x grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-3">
           {STEPS.map((step) => (
-            <div key={step.n} className="flex flex-col bg-surface p-7">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-sm text-plug">{step.n}</span>
-                <span className="h-px flex-1 bg-line" />
+            <div key={step.n} className="flex flex-col bg-card p-field-lg">
+              <div className="flex items-center gap-inline-lg">
+                <span className="font-mono text-body-md text-primary">{step.n}</span>
+                <span className="h-px flex-1 bg-border" />
               </div>
-              <h3 className="mt-5 text-xl font-semibold tracking-tight">
+              <h3 className="mt-text-md text-title-2 tracking-tight">
                 {step.title}
               </h3>
-              <p className="mt-3 flex-1 text-sm leading-7 text-muted">
+              <p className="mt-inline-lg flex-1 text-body-md text-muted-foreground">
                 {step.body}
               </p>
-              <code className="mt-6 block overflow-x-auto rounded-lg border border-line bg-ink px-3 py-2.5 font-mono text-xs text-zinc-300">
+              <code className="mt-text-lg block overflow-x-auto rounded-lg border border-border bg-background px-inline-lg py-field-sm font-mono text-caption text-neutral-300">
                 {step.code}
               </code>
             </div>

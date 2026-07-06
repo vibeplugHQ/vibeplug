@@ -15,8 +15,8 @@ const STACKS = [
 
 export function LogoMarquee() {
   return (
-    <section className="border-y border-line bg-surface/40 py-10">
-      <p className="mb-7 text-center font-mono text-xs uppercase tracking-[0.2em] text-faint">
+    <section className="border-y border-border bg-card/40 py-grid-gutter-x">
+      <p className="mb-text-lg text-center font-mono text-caption uppercase tracking-[0.2em] text-neutral-500">
         어떤 스택에도 그대로 꽂힙니다
       </p>
       <div className="relative overflow-hidden mask-[linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]">
@@ -24,7 +24,7 @@ export function LogoMarquee() {
           {[...STACKS, ...STACKS].map((name, i) => (
             <span
               key={i}
-              className="mr-12 shrink-0 text-lg font-medium text-zinc-500 transition-colors hover:text-zinc-300"
+              className="mr-grid-gutter-x shrink-0 text-title-3 text-neutral-500 transition-colors hover:text-neutral-300"
             >
               {name}
             </span>

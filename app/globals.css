@@ -1,24 +1,574 @@
 @import "tailwindcss";
 
-@theme {
-  --color-ink: #08080a;
-  --color-surface: #0d0d11;
-  --color-surface-2: #131319;
-  --color-line: #232329;
-  --color-line-strong: #34343d;
-  --color-muted: #8b8b95;
-  --color-faint: #5d5d66;
-  --color-plug: #c5f74f;
-  --color-plug-dim: #a7d63f;
+@custom-variant dark (&:is(.dark *));
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+/* =========================================================================
+   Geometry (radius / size / line-height / weight / spacing / shadow)
+   measured live from https://ayro-template.framer.website/ (2026-07-06).
+   Colors + fonts kept from our existing landing palette (Pretendard body,
+   JetBrains Mono code). Radius is 0 everywhere: Ayro is a flat, square design
+   (buttons, cards, panels all border-radius 0). Weights on site are 400/500
+   only; 600 for --fw-bold is the reasonable next step. Display/title sizes
+   step up across Framer's phone/tablet/desktop breakpoints (e.g. hero
+   32→48→64px); the steps are even, so they are reproduced with clamp()
+   between the 390px and 1440px measurements.
+   ========================================================================= */
 
+@theme inline {
+  --font-heading:
+    var(--font-pretendard), "Pretendard Variable", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+  --font-sans:
+    var(--font-pretendard), "Pretendard Variable", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+  --font-mono:
+    var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "SF Mono",
+    Menlo, monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-accent-foreground: var(
+    --accent-foreground
+  ); /* Accent 컬러 위 텍스트 */
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(
+    --muted-foreground
+  ); /* 서브타이틀, 캡션, 부가 설명 */
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(
+    --secondary-foreground
+  ); /* Secondary 컬러 위 텍스트 */
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(
+    --primary-foreground
+  ); /* Primary 컬러 위 텍스트 */
+  --color-primary: var(--primary);
+  --color-tertiary: var(--tertiary); /* 비활성 텍스트, placeholder */
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover); /* 툴팁, 토스트 등 공중에 뜬 요소의 배경 */
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground); /* 기본 본문 및 타이틀 */
+  --color-background: var(--background);
+  --color-success: var(--success);
+  --color-destructive: var(--destructive);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --radius-sm: calc(var(--radius));
+  --radius-md: calc(var(--radius));
+  --radius-lg: calc(var(--radius));
+  --radius-xl: calc(var(--radius));
+  --radius-2xl: calc(var(--radius));
+  --radius-3xl: calc(var(--radius));
+  --radius-4xl: calc(var(--radius));
+
+  /* =========================================
+     애니메이션 (기존 랜딩 마퀴 / 라이즈)
+  ========================================= */
   --animate-marquee: marquee 40s linear infinite;
   --animate-marquee-rev: marquee-rev 40s linear infinite;
   --animate-rise: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  /* =========================================
+	 z-index
+========================================= */
+
+  /* Tailwind v4의 z-index 네임스페이스에 매핑하여 z-* 클래스로 사용 가능하게 설정 */
+  --z-index-hide: -1;
+  --z-index-base: 0;
+
+  --z-index-header: 100;
+  --z-index-footer: 100;
+  --z-index-sticky: 200;
+  --z-index-fab: 300;
+
+  --z-index-dropdown: 1000;
+  --z-index-popover: 1100;
+  --z-index-tooltip: 1200;
+
+  --z-index-backdrop: 1300;
+  --z-index-modal: 1400;
+  --z-index-drawer: 1500;
+  --z-index-toast: 1600;
+  --z-index-loader: 1700;
+
+  /* =========================================
+	 간격
+========================================= */
+
+  /* Tailwind v4의 spacing 네임스페이스에 매핑하여 gap-*, p-*, m-* 등에서 모두 사용 가능하게 설정 */
+
+  /* Text Flow */
+  --spacing-text-xs: 0.25rem;
+  --spacing-text-sm: 0.5rem;
+  --spacing-text-md: 1rem;
+  --spacing-text-lg: 1.5rem;
+
+  /* Field & Control */
+  --spacing-field-sm: 0.5rem;
+  --spacing-field-md: 1rem;
+  --spacing-field-lg: 1.5rem;
+
+  /* Inline Cluster */
+  --spacing-inline-sm: 0.375rem;
+  --spacing-inline-md: 0.5rem;
+  --spacing-inline-lg: 0.75rem;
+
+  /* Structural & Grid */
+  --spacing-section-md: 6rem;
+  --spacing-section-lg: 8rem;
+  --spacing-grid-gutter-x: 2rem;
+
+  /* =========================================
+     컬러: Primary Scale
+========================================= */
+
+  /* primary */
+  --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+  --color-primary-900: var(--primary-900);
+
+  /* secondary */
+  --color-secondary-50: var(--secondary-50);
+  --color-secondary-100: var(--secondary-100);
+  --color-secondary-200: var(--secondary-200);
+  --color-secondary-300: var(--secondary-300);
+  --color-secondary-400: var(--secondary-400);
+  --color-secondary-500: var(--secondary-500);
+  --color-secondary-600: var(--secondary-600);
+  --color-secondary-700: var(--secondary-700);
+  --color-secondary-800: var(--secondary-800);
+  --color-secondary-900: var(--secondary-900);
+
+  /* accent */
+  --color-accent-50: var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-900: var(--accent-900);
+
+  /* neutral */
+  --color-neutral-0: var(--neutral-0);
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-950: var(--neutral-950);
+  --color-neutral-1000: var(--neutral-1000);
+
+  /* =========================================
+	 레이아웃
+========================================= */
+
+  /* 최대 너비 (컨테이너 네임스페이스 → max-w-* / w-* 유틸 생성) */
+  --container-layout-sm: 30rem;
+  --container-layout-md: 48rem;
+  --container-layout-lg: 64rem;
+  --container-layout-xl: 82rem;
+
+  /* 높이, 간격, 기기 물리적 영역 */
+  --spacing-gnb: 4rem;
+  --spacing-top-banner: 2.5rem;
+  --spacing-bnb: 4rem;
+  --spacing-fab-size: 3.5rem;
+  --spacing-fab-gap: 1rem;
+  --spacing-fab-height: calc(var(--fab-size) + var(--fab-gap) * 2);
+  --spacing-floating-bar: 4.5rem;
+  --spacing-sat: env(safe-area-inset-top, 0px);
+  --spacing-sab: env(safe-area-inset-bottom, 0px);
+
+  /* 여백 */
+  --spacing-safe-t: calc(var(--sat) + var(--gnb-height));
+  --spacing-safe-b: calc(var(--sab) + var(--bnb-height));
+  --spacing-anchor: calc(var(--gnb-height) + 1rem);
+
+  /* 비율 */
+  --aspect-landscape: 16 / 9;
+  --aspect-portrait: 3 / 4;
 }
+
+:root {
+  --background: var(--neutral-0);
+  --foreground: var(--neutral-1000);
+  --card: var(--neutral-0);
+  --card-foreground: var(--neutral-1000);
+  --popover: var(--neutral-0);
+  --popover-foreground: var(--neutral-1000);
+  --primary: var(--neutral-1000);
+  --primary-foreground: var(--neutral-0);
+  --secondary: var(--neutral-100);
+  --secondary-foreground: var(--neutral-1000);
+  --muted: var(--neutral-50);
+  --muted-foreground: var(--neutral-400);
+  --accent: var(--primary-500);
+  --accent-foreground: var(--neutral-1000);
+  --tertiary: var(--neutral-300);
+  --border: var(--neutral-200);
+  --input: var(--neutral-200);
+  --ring: var(--neutral-1000);
+  --chart-1: var(--primary-500);
+  --chart-2: var(--accent-500);
+  --chart-3: var(--neutral-500);
+  --chart-4: var(--neutral-300);
+  --chart-5: var(--neutral-700);
+  --radius: 0rem;
+  --sidebar: var(--neutral-0);
+  --sidebar-foreground: var(--neutral-1000);
+  --sidebar-primary: var(--neutral-1000);
+  --sidebar-primary-foreground: var(--neutral-0);
+  --sidebar-accent: var(--neutral-50);
+  --sidebar-accent-foreground: var(--neutral-1000);
+  --sidebar-border: var(--neutral-200);
+  --sidebar-ring: var(--neutral-1000);
+
+  /* =========================================
+	 z-index
+========================================= */
+
+  /* 기본 및 하위 계층 */
+  --z-hide: -1; /* 요소를 화면 아래로 숨길 때 */
+  --z-base: 0; /* 일반적인 콘텐츠 흐름 (기본값) */
+
+  /* 네비게이션 및 고정 요소 */
+  --z-header: 100; /* 상단 GNB */
+  --z-footer: 100; /* 하단 푸터 (또는 모바일 하단 탭 바) */
+  --z-sticky: 200; /* 콘텐츠 내에서 스크롤 시 고정되는 요소 (예: 필터 바) */
+  --z-fab: 300; /* 우하단에 고정되는 버튼 (예: 위로 가기, 챗봇) */
+
+  /* 3. 인터랙티브 요소 */
+  --z-dropdown: 1000; /* 셀렉트 박스나 프로필 클릭 시 나오는 드롭다운 */
+  --z-popover: 1100; /* 정보성 팝업 */
+  --z-tooltip: 1200; /* 마우스 호버 시 나오는 작은 말풍선 */
+
+  /* 4. 글로벌 모달 및 최상위 계층 */
+  --z-backdrop: 1300; /* 모달 뒷면의 어두운 배경 (딤드 처리) */
+  --z-modal: 1400; /* 중앙에 뜨는 다이얼로그나 풀스크린 모달 */
+  --z-drawer: 1500; /* 사이드에서 나오는 메뉴 (Drawer) */
+  --z-toast: 1600; /* 화면 최상단에 뜨는 알림 메시지 (토스트 알림) */
+  --z-loader: 1700; /* 화면 전체를 덮는 스피너나 프로그레스 바 */
+
+  /* =========================================
+	 간격 (rem)
+========================================= */
+
+  /* 타이포그래피 간격 */
+  --gap-text-xs: 0.25rem; /* 라벨과 작은 캡션 사이 */
+  --gap-text-sm: 0.5rem; /* 타이틀과 디스크립션 사이 */
+  --gap-text-md: 1rem; /* 본문 문단 사이 */
+  --gap-text-lg: 1.5rem; /* 텍스트 블록 간 간격 */
+
+  /* 폼 및 컨트롤 간격 */
+  --gap-field-sm: 0.5rem; /* 입력창과 라벨 사이 */
+  --gap-field-md: 1rem; /* 폼 그룹 간 간격 */
+  --gap-field-lg: 1.5rem; /* 폼 영역과 제출 버튼 사이 */
+
+  /* 인라인 클러스터 간격 */
+  --gap-inline-sm: 0.375rem; /* 아이콘과 텍스트 사이 */
+  --gap-inline-md: 0.5rem; /* 가로 나열된 태그 사이 */
+  --gap-inline-lg: 0.75rem; /* 버튼 사이 간격 */
+
+  /* 구조적 섹션 간격 */
+  --gap-section-md: 6rem; /* 같은 카테고리 내 콘텐츠 그룹 사이 */
+  --gap-section-lg: 8rem; /* 완전히 다른 성격의 섹션 사이 */
+
+  /* 글로벌 그리드 거터 */
+  --grid-gutter-x: 2rem; /* 일관된 세로 정렬선 유지용 */
+
+  /* =========================================
+	 레이아웃
+========================================= */
+
+  /* 최대 너비 (rem) */
+  --layout-max-width-sm: 30rem; /* 인증/로그인 페이지 등 */
+  --layout-max-width-md: 48rem; /* 일반적인 콘텐츠 리스트 */
+  --layout-max-width-lg: 64rem; /* 표준 대시보드/메인 레이아웃 & 마이페이지처럼 본문 영역에 사이드바를 포함하는 경우 */
+  --layout-max-width-xl: 82rem; /* 와이드 모니터 대응 콘텐츠 */
+
+  /* 높이 (rem) */
+  --gnb-height: 4rem;
+  --top-banner-height: 2.5rem; /* 페이지 최상단 띠배너 */
+  --bnb-height: 4rem; /* 모바일 하단 탭바 */
+  --fab-size: 3.5rem; /* FAB 버튼 사이즈 */
+  --fab-gap: 1rem; /* FAB 버튼 사이 간격 */
+  --fab-height: calc(
+    var(--fab-size) + var(--fab-gap) * 2
+  ); /* FAB 총 점유 높이 */
+  --floating-bar-height: 4.5rem; /* 모바일 상세페이지 하단 구매/액션바 */
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+
+  /* 썸네일 및 미디어 비율 */
+  --ratio-landscape: 16 / 9;
+  --ratio-portrait: 3 / 4;
+
+  /* 여백 */
+  --safe-padding-top: calc(var(--sat) + var(--gnb-height));
+  --safe-padding-bottom: calc(var(--sab) + var(--bnb-height));
+  --safe-padding-x: 1.25rem;
+  --scroll-padding-top: calc(var(--gnb-height) + 1rem);
+
+  /* =========================================
+     컬러: Primitive (HEX)
+     — 기존 랜딩 팔레트 (라임 plug + 다크 그레이). 참고 사이트 색 아님.
+  ========================================= */
+
+  /* Primary — 랜딩 브랜드 라임 (plug #c5f74f = 500) */
+  --primary-50: #f7fde6;
+  --primary-100: #ecfbc4;
+  --primary-200: #ddf894;
+  --primary-300: #d0f76e;
+  --primary-400: #caf75c;
+  --primary-500: #c5f74f; /* Base */
+  --primary-600: #a7d63f; /* plug-dim */
+  --primary-700: #85ab2f;
+  --primary-800: #637f24;
+  --primary-900: #48591b;
+
+  /* Secondary — 랜딩 다크 그레이 (line-strong #34343d = 500) */
+  --secondary-50: #ededf0;
+  --secondary-100: #d7d7dd;
+  --secondary-200: #b4b4bd;
+  --secondary-300: #8b8b95;
+  --secondary-400: #5d5d66;
+  --secondary-500: #34343d; /* Base */
+  --secondary-600: #232329;
+  --secondary-700: #191920;
+  --secondary-800: #131319;
+  --secondary-900: #0d0d11;
+
+  /* Accent — 랜딩 라임 딥 톤 (plug-dim #a7d63f = 500) */
+  --accent-50: #f4fae3;
+  --accent-100: #e6f4c2;
+  --accent-200: #d3ec93;
+  --accent-300: #c0e368;
+  --accent-400: #b3dd50;
+  --accent-500: #a7d63f; /* Base */
+  --accent-600: #8bb733;
+  --accent-700: #6d8f28;
+  --accent-800: #52691f;
+  --accent-900: #3c4c17;
+
+  /* Neutral — 랜딩 다크 그레이 스케일 (밝은순 0→1000) */
+  --neutral-0: #ffffff;
+  --neutral-50: #f5f5f7;
+  --neutral-100: #ededf0; /* 랜딩 본문 텍스트 */
+  --neutral-200: #d7d7dd;
+  --neutral-300: #b4b4bd;
+  --neutral-400: #8b8b95; /* muted */
+  --neutral-500: #5d5d66; /* faint */
+  --neutral-600: #45454d;
+  --neutral-700: #34343d; /* line-strong */
+  --neutral-800: #232329; /* line */
+  --neutral-900: #131319; /* surface-2 */
+  --neutral-950: #0d0d11; /* surface */
+  --neutral-1000: #08080a; /* ink */
+
+  /* Status */
+  --success: #3fb950;
+  --destructive: #f0504a;
+  --warning: #e3b341;
+  --info: #4fd6f7;
+
+  /* =========================================
+     타이포그래피: Primitive
+     — 참고 사이트 측정값. 폰트 크기는 phone→desktop 계단이 균등하여
+       변하는 큰 사이즈는 clamp(390px값, …, 1440px값)로, 고정 사이즈는 rem.
+  ========================================= */
+
+  /* 폰트 크기 (rem & clamp) */
+  --fs-100: 0.6875rem; /* 11px */
+  --fs-200: 0.75rem; /* 12px */
+  --fs-300: 0.8125rem; /* 13px */
+  --fs-400: 0.875rem; /* 14px */
+  --fs-500: 0.9375rem; /* 15px */
+  --fs-600: clamp(0.9375rem, 0.868rem + 0.2857vw, 1.125rem); /* 15→18px */
+  --fs-700: clamp(1.125rem, 1.032rem + 0.381vw, 1.375rem); /* 18→22px */
+  --fs-800: clamp(1.5rem, 1.3388rem + 0.6612vw, 2rem); /* 24→32px */
+  --fs-900: clamp(1.75rem, 1.0248rem + 2.9752vw, 4rem); /* 28→64px */
+  --fs-1000: clamp(2rem, 1.0331rem + 3.9669vw, 5rem); /* 32→80px */
+
+  /* 줄 간격 및 굵기 */
+  --lh-tight: 1.1;
+  --lh-normal: 1.4;
+  --lh-relaxed: 1.6;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 600;
+}
+
+/* =========================================
+   타이포그래피: Semantic
+   — 새 숫자 없이 위 primitive를 var()로만 조합.
+========================================= */
+
+/* ------- 1. Display ------- */
+
+@utility text-display-lg {
+  /* 랜딩 페이지 메인 카피 */
+  font-size: var(--fs-1000);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+}
+
+@utility text-display-md {
+  /* 대형 프로모션 섹션 타이틀 */
+  font-size: var(--fs-900);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+}
+
+/* ------- 2. Title ------- */
+
+@utility text-title-1 {
+  /* 페이지 최상위 제목 (h1) */
+  font-size: var(--fs-800);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+}
+
+@utility text-title-2 {
+  /* 주요 섹션 제목 (h2) */
+  font-size: var(--fs-700);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-normal);
+}
+
+@utility text-title-3 {
+  /* 카드 UI 내의 아이템 이름, 서브 섹션 (h3) */
+  font-size: var(--fs-600);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-normal);
+}
+
+/* ------- 3. Body ------- */
+
+@utility text-body-lg {
+  /* 도입부 요약 텍스트, 큼직한 본문 */
+  font-size: var(--fs-600);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+}
+
+@utility text-body-md {
+  /* 기본 본문 */
+  font-size: var(--fs-400);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+}
+
+@utility text-body-sm {
+  /* 작은 설명 텍스트 */
+  font-size: var(--fs-300);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+}
+
+/* ------- 4. Label ------- */
+
+@utility text-label-lg {
+  /* 주요 CTA 버튼, 큰 입력창 */
+  font-size: var(--fs-400);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-normal);
+}
+
+@utility text-label-md {
+  /* 일반적인 버튼, 탭 메뉴 */
+  font-size: var(--fs-300);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-normal);
+}
+
+/* ------- 5. Caption ------- */
+
+@utility text-caption {
+  /* 날짜, 저작권, 폼 입력시 에러 메시지, 사진 출처 등 */
+  font-size: var(--fs-200);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+}
+
+.dark {
+  --background: var(--neutral-1000);
+  --foreground: var(--neutral-100);
+  --card: var(--neutral-950);
+  --card-foreground: var(--neutral-100);
+  --popover: var(--neutral-900);
+  --popover-foreground: var(--neutral-100);
+  --primary: var(--primary-500);
+  --primary-foreground: var(--neutral-1000);
+  --secondary: var(--secondary-800);
+  --secondary-foreground: var(--neutral-100);
+  --muted: var(--neutral-900);
+  --muted-foreground: var(--neutral-400);
+  --accent: var(--accent-500);
+  --accent-foreground: var(--neutral-1000);
+  --tertiary: var(--neutral-500);
+  --success: #3fb950;
+  --info: #4fd6f7;
+  --warning: #e3b341;
+  --destructive: #f0504a;
+  --border: var(--neutral-800);
+  --input: var(--neutral-800);
+  --ring: var(--primary-500);
+  --chart-1: var(--primary-500);
+  --chart-2: var(--accent-500);
+  --chart-3: var(--neutral-300);
+  --chart-4: var(--neutral-500);
+  --chart-5: var(--neutral-100);
+  --sidebar: var(--neutral-950);
+  --sidebar-foreground: var(--neutral-100);
+  --sidebar-primary: var(--primary-500);
+  --sidebar-primary-foreground: var(--neutral-1000);
+  --sidebar-accent: var(--neutral-900);
+  --sidebar-accent-foreground: var(--neutral-100);
+  --sidebar-border: var(--neutral-800);
+  --sidebar-ring: var(--primary-500);
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --safe-padding-x: 3rem;
+    --gnb-height: 4.5rem;
+    --bnb-height: 0rem; /* PC에서 하단 탭바가 없는 경우 */
+    --fab-height: 0rem; /* PC에서는 콘텐츠와 FAB이 멀어지므로 FAB 높이를 0으로 간주하여 불필요한 여백 제거 */
+  }
+}
+
+/* =========================================================================
+   Keyframes — 기존 랜딩 애니메이션. 새/옛 토큰과 무관하여 그대로 유지.
+   ========================================================================= */
 
 @keyframes marquee {
   from {
@@ -49,22 +599,36 @@
   }
 }
 
+/* =========================================================================
+   Base layer — 기존 항목 유지. 옛날 토큰(--color-ink/plug/line-strong)만
+   새 시맨틱 토큰으로 교체하여 다크 모드에서 동일하게 보이도록 함.
+   ========================================================================= */
+
 @layer base {
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    background-color: var(--color-ink);
-    color: #ededf0;
-    font-family: var(--font-sans);
+    background-color: var(--background); /* was --color-ink */
+    color: var(--foreground); /* was #ededf0 */
+    /* Direct var(): @theme inline does not emit --font-sans to :root, but
+       --font-pretendard is a real custom property set by next/font/local. */
+    font-family:
+      var(--font-pretendard),
+      "Pretendard Variable",
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   ::selection {
-    background: var(--color-plug);
-    color: #08080a;
+    background: var(--primary); /* was --color-plug */
+    color: var(--primary-foreground); /* was #08080a */
   }
 
   *::-webkit-scrollbar {
@@ -72,30 +636,35 @@
     height: 10px;
   }
   *::-webkit-scrollbar-thumb {
-    background: var(--color-line-strong);
+    background: var(--neutral-700); /* was --color-line-strong */
     border-radius: 9999px;
-    border: 2px solid var(--color-ink);
+    border: 2px solid var(--background); /* was --color-ink */
   }
 }
+
+/* =========================================================================
+   Custom utilities — 기존 항목 유지. 옛날 토큰만 새 토큰으로 교체.
+   ========================================================================= */
 
 /* Dotted / grid backdrops */
 @utility bg-dots {
   background-image: radial-gradient(
-    color-mix(in oklab, var(--color-line-strong) 85%, transparent) 1px,
+    color-mix(in oklab, var(--neutral-700) 85%, transparent) 1px,
     transparent 1px
   );
   background-size: 22px 22px;
 }
 
 @utility bg-grid {
-  background-image: linear-gradient(
+  background-image:
+    linear-gradient(
       to right,
-      color-mix(in oklab, var(--color-line) 75%, transparent) 1px,
+      color-mix(in oklab, var(--border) 75%, transparent) 1px,
       transparent 1px
     ),
     linear-gradient(
       to bottom,
-      color-mix(in oklab, var(--color-line) 75%, transparent) 1px,
+      color-mix(in oklab, var(--border) 75%, transparent) 1px,
       transparent 1px
     );
   background-size: 60px 60px;
@@ -105,7 +674,7 @@
 @utility glow-plug {
   background: radial-gradient(
     50% 50% at 50% 0%,
-    color-mix(in oklab, var(--color-plug) 22%, transparent) 0%,
+    color-mix(in oklab, var(--primary) 22%, transparent) 0%,
     transparent 70%
   );
 }

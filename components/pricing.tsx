@@ -47,62 +47,62 @@ const PLANS = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="scroll-mt-20 border-t border-line">
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
-        <div className="mx-auto max-w-xl text-center">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-plug">
+    <section id="pricing" className="scroll-mt-anchor border-t border-border">
+      <div className="mx-auto max-w-layout-lg px-field-md py-section-md sm:py-section-lg">
+        <div className="mx-auto max-w-layout-sm text-center">
+          <p className="font-mono text-caption uppercase tracking-[0.2em] text-primary">
             가격
           </p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="mt-inline-lg text-balance text-display-md tracking-tight">
             설치는 언제나 무료입니다
           </h2>
-          <p className="mt-3 text-pretty text-muted">
+          <p className="mt-inline-lg text-pretty text-muted-foreground">
             오픈소스 plug은 그대로 무료. 비공개 레지스트리와 팀 협업이 필요할
             때만 업그레이드하세요.
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="mt-grid-gutter-x grid grid-cols-1 gap-field-md lg:grid-cols-3">
           {PLANS.map((plan) => (
             <div
               key={plan.name}
-              className={`relative flex flex-col rounded-2xl border p-7 ${
+              className={`relative flex flex-col rounded-2xl border p-field-lg ${
                 plan.featured
-                  ? "border-plug/50 bg-surface"
-                  : "border-line bg-surface"
+                  ? "border-primary/50 bg-card"
+                  : "border-border bg-card"
               }`}
             >
               {plan.featured && (
-                <span className="absolute right-6 top-7 rounded-full bg-plug px-2.5 py-1 text-[11px] font-semibold text-ink">
+                <span className="absolute right-6 top-7 rounded-full bg-primary px-field-sm py-text-xs text-caption text-primary-foreground">
                   인기
                 </span>
               )}
-              <h3 className="text-lg font-semibold tracking-tight">
+              <h3 className="text-title-3 tracking-tight">
                 {plan.name}
               </h3>
-              <div className="mt-4 flex items-baseline gap-1.5">
-                <span className="text-4xl font-semibold tracking-tight">
+              <div className="mt-text-md flex items-baseline gap-inline-sm">
+                <span className="text-display-md tracking-tight">
                   {plan.price}
                 </span>
-                <span className="text-sm text-faint">{plan.period}</span>
+                <span className="text-body-md text-neutral-500">{plan.period}</span>
               </div>
-              <p className="mt-3 text-sm leading-6 text-muted">{plan.desc}</p>
+              <p className="mt-inline-lg text-body-md text-muted-foreground">{plan.desc}</p>
 
-              <ul className="mt-6 flex-1 space-y-3">
+              <ul className="mt-text-lg flex-1 space-y-inline-lg">
                 {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm">
-                    <CheckIcon className="mt-0.5 size-4 shrink-0 text-plug" />
-                    <span className="text-zinc-300">{f}</span>
+                  <li key={f} className="flex items-start gap-inline-md text-body-md">
+                    <CheckIcon className="mt-text-xs size-4 shrink-0 text-primary" />
+                    <span className="text-neutral-300">{f}</span>
                   </li>
                 ))}
               </ul>
 
               <a
                 href="#marketplace"
-                className={`mt-7 flex h-11 items-center justify-center rounded-xl px-5 text-sm font-semibold transition-colors ${
+                className={`mt-text-lg flex h-11 items-center justify-center rounded-xl px-field-md text-label-lg transition-colors ${
                   plan.featured
-                    ? "bg-plug text-ink hover:opacity-90"
-                    : "border border-line bg-surface-2 text-zinc-100 hover:border-line-strong"
+                    ? "bg-primary text-primary-foreground hover:opacity-90"
+                    : "border border-border bg-muted text-neutral-100 hover:border-neutral-700"
                 }`}
               >
                 {plan.cta}
