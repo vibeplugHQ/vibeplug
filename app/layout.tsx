@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { SiteHeader } from "@/components/site-header";
 
 // Pretendard — body / UI / headings (--font-sans, --font-heading in globals.css)
 const pretendard = localFont({
@@ -41,7 +42,10 @@ export default function RootLayout({
       lang="ko"
       className={`dark ${pretendard.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-background text-foreground">{children}</body>
+      <body className="min-h-full bg-background text-foreground">
+        <SiteHeader />
+        {children}
+      </body>
     </html>
   );
 }

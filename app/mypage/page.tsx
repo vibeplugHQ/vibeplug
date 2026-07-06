@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function MyPage() {
   return (
-    <main className="mx-auto max-w-layout-lg px-field-md pb-section-md pt-section-md">
+    <>
       {/* 페이지 헤더 — 제목 + 안내 문구 */}
       <header>
         <h1 className="text-title-1 tracking-tight">마이페이지</h1>
@@ -22,6 +22,6 @@ export default function MyPage() {
           등록한 기능이 여기에 표시됩니다
         </p>
       </section>
-    </main>
+    </>
   );
 }
