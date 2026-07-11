@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const NAV = [
   { label: "Marketplace", href: "#marketplace" },
+  { label: "기능 목록", href: "/features" },
   { label: "How it works", href: "#how" },
   { label: "Features", href: "#features" },
   { label: "Pricing", href: "#pricing" },
