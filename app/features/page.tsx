@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import featuresData from "@/data/features.json";
+import { headers } from "next/headers";
 import { FeatureCard, type Feature } from "@/components/feature-card";
 
 export const metadata: Metadata = {
@@ -7,9 +7,27 @@ export const metadata: Metadata = {
   description: "판매 중인 기능을 둘러보세요.",
 };
 
-const features = featuresData as Feature[];
+type FeatureRow = Feature & { id: string };
 
-export default function FeaturesPage() {
+async function getFeatures(): Promise<FeatureRow[]> {
+  const headerList = await headers();
+  const host = headerList.get("host");
+  const protocol = headerList.get("x-forwarded-proto") ?? "http";
+
+  const res = await fetch(`${protocol}://${host}/api/features`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("기능 목록을 불러오지 못했습니다.");
+  }
+
+  return res.json();
+}
+
+export default async function FeaturesPage() {
+  const features = await getFeatures();
+
   return (
     <main className="mx-auto max-w-layout-lg px-field-md py-section-md sm:py-section-lg">
       <div className="max-w-layout-sm">
@@ -26,7 +44,7 @@ export default function FeaturesPage() {
 
       <div className="mt-grid-gutter-x grid grid-cols-1 gap-field-md sm:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
-          <FeatureCard key={feature.name} feature={feature} />
+          <FeatureCard key={feature.id} feature={feature} />
         ))}
       </div>
     </main>
