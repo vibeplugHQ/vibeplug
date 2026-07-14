@@ -1,12 +1,13 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
+import { FEATURE_COLUMNS, parseFeatureInput } from "@/lib/features";
 
 export async function GET() {
   const supabase = createClient(await cookies());
 
   const { data, error } = await supabase
     .from("features")
-    .select("id, name, description, category, price")
+    .select(FEATURE_COLUMNS)
     .order("created_at", { ascending: false })
     .order("id", { ascending: false });
 
@@ -26,36 +27,18 @@ export async function POST(request: Request) {
     return Response.json({ error: "요청 형식이 올바르지 않습니다." }, { status: 400 });
   }
 
-  const { name, description, category, price } = (body ?? {}) as Record<string, unknown>;
+  const parsed = parseFeatureInput(body);
 
-  if (
-    typeof name !== "string" ||
-    typeof description !== "string" ||
-    typeof category !== "string" ||
-    !name.trim() ||
-    !description.trim() ||
-    !category.trim()
-  ) {
-    return Response.json({ error: "모든 항목을 입력해주세요." }, { status: 400 });
-  }
-
-  const parsedPrice = Number(price);
-
-  if (!Number.isFinite(parsedPrice) || parsedPrice < 0) {
-    return Response.json({ error: "가격은 0 이상의 숫자여야 합니다." }, { status: 400 });
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.message }, { status: 400 });
   }
 
   const supabase = createClient(await cookies());
 
   const { data, error } = await supabase
     .from("features")
-    .insert({
-      name: name.trim(),
-      description: description.trim(),
-      category: category.trim(),
-      price: parsedPrice,
-    })
-    .select("id, name, description, category, price")
+    .insert(parsed.value)
+    .select(FEATURE_COLUMNS)
     .single();
 
   if (error) {
