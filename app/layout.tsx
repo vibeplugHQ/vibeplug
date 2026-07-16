@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { cookies } from "next/headers";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
+import { createClient } from "@/utils/supabase/server";
 
 // Pretendard — body / UI / headings (--font-sans, --font-heading in globals.css)
 const pretendard = localFont({
@@ -32,18 +34,38 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // GNB 를 로그인 상태에 맞춰 그리려면 서버에서 현재 사용자를 읽어 전달한다.
+  const supabase = createClient(await cookies());
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const headerUser = user
+    ? {
+        name:
+          user.user_metadata?.full_name ??
+          user.user_metadata?.name ??
+          user.email ??
+          "사용자",
+        avatarUrl:
+          user.user_metadata?.avatar_url ??
+          user.user_metadata?.picture ??
+          null,
+      }
+    : null;
+
   return (
     <html
       lang="ko"
       className={`dark ${pretendard.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground">
-        <SiteHeader />
+        <SiteHeader user={headerUser} />
         {children}
       </body>
     </html>

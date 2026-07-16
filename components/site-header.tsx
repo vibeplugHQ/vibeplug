@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { GitHubIcon, Logo } from "@/components/icons";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { createClient } from "@/utils/supabase/client";
 
 const NAV = [
   { label: "Marketplace", href: "#marketplace" },
@@ -12,8 +14,26 @@ const NAV = [
   { label: "Pricing", href: "#pricing" },
 ];
 
-export function SiteHeader() {
+/** GNB 에 표시할 로그인 사용자 정보 (서버 레이아웃에서 전달). */
+export type HeaderUser = {
+  name: string;
+  avatarUrl: string | null;
+};
+
+export function SiteHeader({ user }: { user: HeaderUser | null }) {
   const [open, setOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setOpen(false);
+    // 서버 컴포넌트(레이아웃)를 다시 그려 GNB 를 로그아웃 상태로 갱신한다.
+    router.refresh();
+    setLoggingOut(false);
+  };
 
   return (
     <header className="sticky top-0 z-header border-b border-border/80 bg-background/70 backdrop-blur-xl">
@@ -51,12 +71,41 @@ export function SiteHeader() {
           >
             <GitHubIcon className="size-4.5" />
           </a>
-          <a
-            href="/login"
-            className="hidden rounded-lg border border-border px-field-md py-field-sm text-label-lg text-foreground transition-colors hover:border-neutral-700 sm:inline-block"
-          >
-            로그인
-          </a>
+          {user ? (
+            <div className="hidden items-center gap-inline-md sm:flex">
+              {user.avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element -- 구글 아바타는 외부 URL이라 next/image 원격 설정 없이 그대로 표시
+                <img
+                  src={user.avatarUrl}
+                  alt={user.name}
+                  referrerPolicy="no-referrer"
+                  className="size-8 rounded-full border border-border object-cover"
+                />
+              ) : (
+                <span className="flex size-8 items-center justify-center rounded-full border border-border bg-card text-label-md text-muted-foreground">
+                  {user.name.charAt(0)}
+                </span>
+              )}
+              <span className="max-w-32 truncate text-label-lg text-foreground">
+                {user.name}
+              </span>
+              <button
+                type="button"
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="rounded-lg border border-border px-field-md py-field-sm text-label-lg text-foreground transition-colors hover:border-neutral-700 disabled:opacity-60"
+              >
+                로그아웃
+              </button>
+            </div>
+          ) : (
+            <a
+              href="/login"
+              className="hidden rounded-lg border border-border px-field-md py-field-sm text-label-lg text-foreground transition-colors hover:border-neutral-700 sm:inline-block"
+            >
+              로그인
+            </a>
+          )}
           <a
             href="#marketplace"
             className="hidden rounded-lg bg-primary px-field-md py-field-sm text-label-lg text-primary-foreground transition-opacity hover:opacity-90 sm:inline-block"
@@ -98,13 +147,44 @@ export function SiteHeader() {
               {item.label}
             </a>
           ))}
-          <a
-            href="/login"
-            onClick={() => setOpen(false)}
-            className="mt-text-sm block rounded-lg border border-border px-field-md py-field-sm text-center text-label-lg text-foreground"
-          >
-            로그인
-          </a>
+          {user ? (
+            <div className="mt-text-sm">
+              <div className="flex items-center gap-inline-md px-field-sm py-field-sm">
+                {user.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- 구글 아바타는 외부 URL이라 next/image 원격 설정 없이 그대로 표시
+                  <img
+                    src={user.avatarUrl}
+                    alt={user.name}
+                    referrerPolicy="no-referrer"
+                    className="size-8 rounded-full border border-border object-cover"
+                  />
+                ) : (
+                  <span className="flex size-8 items-center justify-center rounded-full border border-border bg-card text-label-md text-muted-foreground">
+                    {user.name.charAt(0)}
+                  </span>
+                )}
+                <span className="truncate text-label-lg text-foreground">
+                  {user.name}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="mt-inline-md block w-full rounded-lg border border-border px-field-md py-field-sm text-center text-label-lg text-foreground disabled:opacity-60"
+              >
+                로그아웃
+              </button>
+            </div>
+          ) : (
+            <a
+              href="/login"
+              onClick={() => setOpen(false)}
+              className="mt-text-sm block rounded-lg border border-border px-field-md py-field-sm text-center text-label-lg text-foreground"
+            >
+              로그인
+            </a>
+          )}
           <a
             href="#marketplace"
             onClick={() => setOpen(false)}
