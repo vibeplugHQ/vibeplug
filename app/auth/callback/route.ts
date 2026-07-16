@@ -11,9 +11,20 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = createClient(await cookies());
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
+      // 로그인할 때마다 구글에서 받은 최신 이름·이메일·프로필 사진을 profiles 에 반영한다.
+      const user = data.user;
+      if (user) {
+        await supabase.from("profiles").upsert({
+          id: user.id,
+          name: user.user_metadata.full_name ?? user.user_metadata.name ?? null,
+          email: user.email ?? null,
+          avatar_url: user.user_metadata.avatar_url ?? user.user_metadata.picture ?? null,
+        });
+      }
+
       // 배포 환경에서 로드밸런서를 거치면 origin 대신 forwarded host 를 써야 한다.
       const forwardedHost = request.headers.get("x-forwarded-host");
       const isLocalEnv = process.env.NODE_ENV === "development";
