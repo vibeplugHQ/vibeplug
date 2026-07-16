@@ -52,6 +52,12 @@ export function SiteHeader() {
             <GitHubIcon className="size-4.5" />
           </a>
           <a
+            href="/login"
+            className="hidden rounded-lg border border-border px-field-md py-field-sm text-label-lg text-foreground transition-colors hover:border-neutral-700 sm:inline-block"
+          >
+            로그인
+          </a>
+          <a
             href="#marketplace"
             className="hidden rounded-lg bg-primary px-field-md py-field-sm text-label-lg text-primary-foreground transition-opacity hover:opacity-90 sm:inline-block"
           >
@@ -93,9 +99,16 @@ export function SiteHeader() {
             </a>
           ))}
           <a
+            href="/login"
+            onClick={() => setOpen(false)}
+            className="mt-text-sm block rounded-lg border border-border px-field-md py-field-sm text-center text-label-lg text-foreground"
+          >
+            로그인
+          </a>
+          <a
             href="#marketplace"
             onClick={() => setOpen(false)}
-            className="mt-text-sm block rounded-lg bg-primary px-field-md py-field-sm text-center text-label-lg text-primary-foreground"
+            className="mt-inline-md block rounded-lg bg-primary px-field-md py-field-sm text-center text-label-lg text-primary-foreground"
           >
             Browse plugs
           </a>
