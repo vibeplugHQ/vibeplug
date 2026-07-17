@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
+import { requireUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "마이페이지 — Vibeplug",
   description: "내가 등록한 기능을 확인하고 관리하는 판매자 마이페이지.",
 };
 
-export default function MyPage() {
+export default async function MyPage() {
+  // 로그인하지 않은 사용자는 로그인 페이지로 보낸다.
+  await requireUser();
+
   return (
     <>
       {/* 페이지 헤더 — 제목 + 안내 문구 */}

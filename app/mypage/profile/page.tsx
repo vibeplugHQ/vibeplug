@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
+import { requireUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "내 정보 — Vibeplug",
@@ -10,16 +8,8 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfilePage() {
-  const supabase = createClient(await cookies());
-
   // 로그인하지 않은 사용자는 로그인 페이지로 보낸다.
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
+  const { supabase, user } = await requireUser();
 
   // RLS 정책 덕분에 본인 행만 조회된다.
   const { data: profile } = await supabase

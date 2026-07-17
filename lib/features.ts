@@ -2,6 +2,10 @@
 
 export const FEATURE_COLUMNS = "id, name, description, category, price";
 
+// 컨트리뷰터가 등록·수정할 수 있는 유일한 카테고리.
+// DB의 컨트리뷰터 RLS 정책과 화면의 고정 선택지가 같은 값을 쓰도록 한곳에서 정의한다.
+export const UI_COMPONENT_CATEGORY = "UI 컴포넌트";
+
 export type FeatureInput = {
   name: string;
   description: string;

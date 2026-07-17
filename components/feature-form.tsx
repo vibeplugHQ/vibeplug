@@ -39,6 +39,8 @@ type FeatureFieldsProps = {
   value: FeatureFormValue;
   onChange: (value: FeatureFormValue) => void;
   disabled?: boolean;
+  // 값이 있으면 카테고리를 이 값으로 고정하고 바꿀 수 없게 한다. (컨트리뷰터 = 'UI 컴포넌트')
+  lockedCategory?: string;
 };
 
 /** 기능의 입력 항목. 등록 폼과 수정 폼이 함께 사용한다. */
@@ -48,6 +50,7 @@ export function FeatureFields({
   value,
   onChange,
   disabled,
+  lockedCategory,
 }: FeatureFieldsProps) {
   const fieldId = (name: keyof FeatureFormValue) => `${idPrefix}-${name}`;
 
@@ -94,17 +97,30 @@ export function FeatureFields({
         <label htmlFor={fieldId("category")} className="text-label-md text-foreground">
           카테고리
         </label>
-        <CategoryCombobox
-          id={fieldId("category")}
-          name="category"
-          options={categories}
-          required
-          disabled={disabled}
-          value={value.category}
-          onChange={(category) => onChange({ ...value, category })}
-          placeholder="예: 인증"
-          className={fieldClassName}
-        />
+        {lockedCategory ? (
+          // 컨트리뷰터는 'UI 컴포넌트' 카테고리로만 등록·수정할 수 있어 값을 고정한다.
+          <input
+            id={fieldId("category")}
+            name="category"
+            type="text"
+            readOnly
+            aria-readonly="true"
+            value={value.category}
+            className={`${fieldClassName} cursor-not-allowed text-muted-foreground`}
+          />
+        ) : (
+          <CategoryCombobox
+            id={fieldId("category")}
+            name="category"
+            options={categories}
+            required
+            disabled={disabled}
+            value={value.category}
+            onChange={(category) => onChange({ ...value, category })}
+            placeholder="예: 인증"
+            className={fieldClassName}
+          />
+        )}
       </div>
 
       {/* 가격 — 숫자만 입력 */}
@@ -137,9 +153,19 @@ type Status =
   | { state: "success" }
   | { state: "error"; message: string };
 
-export function FeatureForm({ categories }: { categories: string[] }) {
+export function FeatureForm({
+  categories,
+  lockedCategory,
+}: {
+  categories: string[];
+  // 컨트리뷰터에게 넘기면 카테고리를 이 값으로 고정한다. (= 'UI 컴포넌트')
+  lockedCategory?: string;
+}) {
   const router = useRouter();
-  const [value, setValue] = useState<FeatureFormValue>(emptyFeatureFormValue);
+  const initialValue = lockedCategory
+    ? { ...emptyFeatureFormValue, category: lockedCategory }
+    : emptyFeatureFormValue;
+  const [value, setValue] = useState<FeatureFormValue>(initialValue);
   const [status, setStatus] = useState<Status>({ state: "idle" });
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -158,7 +184,7 @@ export function FeatureForm({ categories }: { categories: string[] }) {
         throw new Error(body?.error ?? "기능을 등록하지 못했습니다.");
       }
 
-      setValue(emptyFeatureFormValue);
+      setValue(initialValue);
       setStatus({ state: "success" });
       // 아래 목록이 방금 등록한 기능을 바로 보여주도록 서버 데이터를 다시 읽는다.
       router.refresh();
@@ -181,6 +207,7 @@ export function FeatureForm({ categories }: { categories: string[] }) {
         value={value}
         onChange={setValue}
         disabled={status.state === "submitting"}
+        lockedCategory={lockedCategory}
       />
 
       <button

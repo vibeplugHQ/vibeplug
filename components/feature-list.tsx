@@ -21,9 +21,16 @@ type Status =
 export function FeatureList({
   features,
   categories,
+  canManage,
+  lockedCategory,
 }: {
   features: FeatureRow[];
   categories: string[];
+  // 운영자와 컨트리뷰터가 수정·삭제 버튼을 볼 수 있다.
+  // (컨트리뷰터에게는 본인이 등록한 상품만 목록에 내려오므로 모두 관리 가능하다.)
+  canManage: boolean;
+  // 값이 있으면 수정 폼에서도 카테고리를 이 값으로 고정한다. (컨트리뷰터 = 'UI 컴포넌트')
+  lockedCategory?: string;
 }) {
   const router = useRouter();
 
@@ -148,6 +155,7 @@ export function FeatureList({
                     value={editValue}
                     onChange={setEditValue}
                     disabled={pending}
+                    lockedCategory={lockedCategory}
                   />
 
                   <div className="mt-auto flex gap-inline-lg pt-field-sm">
@@ -169,7 +177,8 @@ export function FeatureList({
               <li key={feature.id} className="flex flex-col gap-field-sm">
                 <FeatureCard feature={feature} />
 
-                {confirmingId === feature.id ? (
+                {canManage &&
+                  (confirmingId === feature.id ? (
                   // 삭제는 곧바로 하지 않고 한 번 더 확인받는다.
                   <div
                     role="alertdialog"
@@ -220,7 +229,7 @@ export function FeatureList({
                       삭제
                     </button>
                   </div>
-                )}
+                  ))}
               </li>
             ),
           )}

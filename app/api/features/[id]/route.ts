@@ -7,8 +7,9 @@ type RouteContext = { params: Promise<{ id: string }> };
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-// features는 RLS가 켜져 있고 UPDATE·DELETE 정책이 없다. 정책에 막힌 요청은 오류가 아니라
-// "고친 행 0건"으로 돌아오므로, 행이 아예 없는 것(404)과 구분하려면 존재 여부를 따로 확인해야 한다.
+// features는 RLS가 켜져 있어, 권한이 없는 UPDATE·DELETE는 오류가 아니라 "고친 행 0건"으로 돌아온다.
+// (예: 운영자가 아닌 사용자, 또는 본인이 등록하지 않은 상품을 고치려는 컨트리뷰터.)
+// 행이 아예 없는 것(404)과 구분하려면 존재 여부를 따로 확인해야 한다.
 // 이 확인이 없으면 아무것도 바뀌지 않은 요청에 200을 돌려주게 된다.
 async function explainNoRowsAffected(supabase: SupabaseClient, id: string) {
   const { data, error } = await supabase
