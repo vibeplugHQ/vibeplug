@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { createClient } from "@/utils/supabase/server";
 import { formatPrice } from "@/components/feature-card";
+import { PaymentWidget } from "./payment-widget";
 
 export const metadata: Metadata = {
   title: "주문서 — Vibeplug",
@@ -57,6 +58,13 @@ export default async function CheckoutPage({
     notFound();
   }
 
+  // 토스에 넘길 주문명. 담긴 기능 이름 + 나머지 건수로 만든다.
+  const firstItemName = data.order_items[0]?.feature?.name ?? "기능";
+  const orderName =
+    data.order_items.length > 1
+      ? `${firstItemName} 외 ${data.order_items.length - 1}건`
+      : firstItemName;
+
   return (
     <main className="mx-auto max-w-layout-md px-field-md py-section-md sm:py-section-lg">
       <Link
@@ -102,14 +110,14 @@ export default async function CheckoutPage({
           </div>
         </section>
 
-        {/* 결제 수단 — 아직 결제 기능은 붙이지 않았다. */}
+        {/* 결제 수단 — 토스페이먼츠 결제위젯. 금액은 DB 총액, 주문번호는 주문 id. */}
         <section className="mt-field-lg">
           <h2 className="text-title-3 tracking-tight text-foreground">결제 수단</h2>
-          <div className="mt-inline-lg flex min-h-40 items-center justify-center rounded-2xl border border-dashed border-border bg-card p-field-lg text-center">
-            <p className="text-body-md text-muted-foreground">
-              결제 수단 선택이 여기에 들어갑니다
-            </p>
-          </div>
+          <PaymentWidget
+            orderId={data.id}
+            orderName={orderName}
+            amount={data.total}
+          />
         </section>
       </article>
     </main>
