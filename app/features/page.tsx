@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import Link from "next/link";
 import { FeatureCard, type Feature } from "@/components/feature-card";
 
 export const metadata: Metadata = {
@@ -44,7 +45,13 @@ export default async function FeaturesPage() {
 
       <div className="mt-grid-gutter-x grid grid-cols-1 gap-field-md sm:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
-          <FeatureCard key={feature.id} feature={feature} />
+          <Link
+            key={feature.id}
+            href={`/features/${feature.id}`}
+            className="rounded-2xl transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <FeatureCard feature={feature} />
+          </Link>
         ))}
       </div>
     </main>

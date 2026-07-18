@@ -11,6 +11,10 @@ const priceFormatter = new Intl.NumberFormat("ko-KR", {
   maximumFractionDigits: 0,
 });
 
+export function formatPrice(price: number) {
+  return priceFormatter.format(price);
+}
+
 export function FeatureCard({ feature }: { feature: Feature }) {
   return (
     <article className="flex h-full flex-col rounded-2xl border border-border bg-card p-field-md transition-colors hover:border-neutral-700">
@@ -26,7 +30,7 @@ export function FeatureCard({ feature }: { feature: Feature }) {
       </p>
 
       <p className="mt-auto border-t border-border pt-field-md font-mono text-title-3 text-foreground">
-        {priceFormatter.format(feature.price)}
+        {formatPrice(feature.price)}
       </p>
     </article>
   );

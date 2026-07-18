@@ -11,6 +11,33 @@ const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
 // (예: 운영자가 아닌 사용자, 또는 본인이 등록하지 않은 상품을 고치려는 컨트리뷰터.)
 // 행이 아예 없는 것(404)과 구분하려면 존재 여부를 따로 확인해야 한다.
 // 이 확인이 없으면 아무것도 바뀌지 않은 요청에 200을 돌려주게 된다.
+export async function GET(_request: Request, { params }: RouteContext) {
+  const { id } = await params;
+
+  if (!UUID_PATTERN.test(id)) {
+    return Response.json({ error: "기능을 찾을 수 없습니다." }, { status: 404 });
+  }
+
+  const supabase = createClient(await cookies());
+
+  // 목록과 같은 FEATURE_COLUMNS만 조회한다. content 컬럼은 여기서도 절대 읽지 않는다.
+  const { data, error } = await supabase
+    .from("features")
+    .select(FEATURE_COLUMNS)
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    return Response.json({ error: error.message }, { status: 500 });
+  }
+
+  if (!data) {
+    return Response.json({ error: "기능을 찾을 수 없습니다." }, { status: 404 });
+  }
+
+  return Response.json(data);
+}
+
 async function explainNoRowsAffected(supabase: SupabaseClient, id: string) {
   const { data, error } = await supabase
     .from("features")
