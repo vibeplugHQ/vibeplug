@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { formatPrice, type Feature } from "@/components/feature-card";
 import { BuyButton } from "./buy-button";
+import { AddToCartButton } from "./add-to-cart-button";
 
 export const metadata: Metadata = {
   title: "기능 상세 — Vibeplug",
@@ -41,7 +42,7 @@ export default async function FeatureDetailPage({
   params: Promise<{ id: string }>;
 }) {
   // 로그인하지 않은 사용자는 로그인 페이지로 보낸다.
-  await requireUser();
+  const { supabase } = await requireUser();
 
   const { id } = await params;
   const feature = await getFeature(id);
@@ -49,6 +50,14 @@ export default async function FeatureDetailPage({
   if (!feature) {
     notFound();
   }
+
+  // 이미 장바구니에 담긴 기능이면 담기 버튼을 "담기 완료"로 표시한다.
+  const { data: cartRow } = await supabase
+    .from("cart")
+    .select("feature_id")
+    .eq("feature_id", feature.id)
+    .maybeSingle();
+  const inCart = Boolean(cartRow);
 
   return (
     <main className="mx-auto max-w-layout-md px-field-md py-section-md sm:py-section-lg">
@@ -91,9 +100,14 @@ export default async function FeatureDetailPage({
           </div>
         </section>
 
-        {/* 바로 구매 — 누르면 주문을 만들고 주문서 페이지로 이동한다. */}
-        <div className="mt-section-md">
-          <BuyButton featureId={feature.id} />
+        {/* 바로 구매 / 장바구니 담기 — 각 버튼은 아래에 자기 오류 메시지를 쌓는다. */}
+        <div className="mt-section-md flex flex-col gap-field-md sm:flex-row sm:items-start">
+          <div>
+            <BuyButton featureId={feature.id} />
+          </div>
+          <div>
+            <AddToCartButton featureId={feature.id} initialInCart={inCart} />
+          </div>
         </div>
       </article>
     </main>

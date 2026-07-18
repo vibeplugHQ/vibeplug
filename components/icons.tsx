@@ -216,6 +216,16 @@ export function MoonIcon(p: IconProps) {
   );
 }
 
+export function CartIcon(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <circle cx="9" cy="20" r="1.1" />
+      <circle cx="18" cy="20" r="1.1" />
+      <path d="M2.5 3h2l2.2 11a1.4 1.4 0 0 0 1.4 1.1h8.3a1.4 1.4 0 0 0 1.4-1.1L20.5 7H5.2" />
+    </svg>
+  );
+}
+
 export function GitHubIcon(p: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>

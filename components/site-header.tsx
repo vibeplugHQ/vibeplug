@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { GitHubIcon, Logo } from "@/components/icons";
+import { CartIcon, GitHubIcon, Logo } from "@/components/icons";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useCart } from "@/components/cart-context";
 import { createClient } from "@/utils/supabase/client";
 
 const NAV = [
@@ -24,6 +25,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
   const [open, setOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const router = useRouter();
+  const { count: cartCount } = useCart();
 
   const handleLogout = async () => {
     setLoggingOut(true);
@@ -73,6 +75,18 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
           </a>
           {user ? (
             <div className="hidden items-center gap-inline-md sm:flex">
+              <a
+                href="/cart"
+                aria-label={cartCount > 0 ? `장바구니 (${cartCount})` : "장바구니"}
+                className="relative flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-neutral-700 hover:text-neutral-100"
+              >
+                <CartIcon className="size-4.5" />
+                {cartCount > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 font-mono text-[0.625rem] leading-none text-primary-foreground">
+                    {cartCount}
+                  </span>
+                )}
+              </a>
               {user.avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element -- 구글 아바타는 외부 URL이라 next/image 원격 설정 없이 그대로 표시
                 <img
@@ -167,6 +181,21 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                   {user.name}
                 </span>
               </div>
+              <a
+                href="/cart"
+                onClick={() => setOpen(false)}
+                className="mt-inline-md flex items-center justify-between rounded-lg border border-border px-field-md py-field-sm text-label-lg text-foreground"
+              >
+                <span className="flex items-center gap-inline-md">
+                  <CartIcon className="size-4.5" />
+                  장바구니
+                </span>
+                {cartCount > 0 && (
+                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 font-mono text-caption leading-none text-primary-foreground">
+                    {cartCount}
+                  </span>
+                )}
+              </a>
               <button
                 type="button"
                 onClick={handleLogout}

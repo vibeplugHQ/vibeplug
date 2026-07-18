@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
+import { CartProvider } from "@/components/cart-context";
 import { createClient } from "@/utils/supabase/server";
 
 // Pretendard — body / UI / headings (--font-sans, --font-heading in globals.css)
@@ -59,14 +60,25 @@ export default async function RootLayout({
       }
     : null;
 
+  // GNB 장바구니 뱃지의 초기 개수. 로그인하지 않았으면 뱃지 자체를 숨기므로 0으로 둔다.
+  let cartCount = 0;
+  if (user) {
+    const { count } = await supabase
+      .from("cart")
+      .select("feature_id", { count: "exact", head: true });
+    cartCount = count ?? 0;
+  }
+
   return (
     <html
       lang="ko"
       className={`dark ${pretendard.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground">
-        <SiteHeader user={headerUser} />
-        {children}
+        <CartProvider initialCount={cartCount}>
+          <SiteHeader user={headerUser} />
+          {children}
+        </CartProvider>
       </body>
     </html>
   );
