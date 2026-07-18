@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { formatPrice, type Feature } from "@/components/feature-card";
+import { BuyButton } from "./buy-button";
 
 export const metadata: Metadata = {
   title: "기능 상세 — Vibeplug",
@@ -90,14 +91,9 @@ export default async function FeatureDetailPage({
           </div>
         </section>
 
-        {/* 구매하기 — 아직 동작을 연결하지 않았다. */}
+        {/* 바로 구매 — 누르면 주문을 만들고 주문서 페이지로 이동한다. */}
         <div className="mt-section-md">
-          <button
-            type="button"
-            className="flex h-12 w-full items-center justify-center bg-primary px-field-md text-label-lg text-primary-foreground transition-opacity hover:opacity-90 sm:w-auto sm:min-w-52"
-          >
-            구매하기
-          </button>
+          <BuyButton featureId={feature.id} />
         </div>
       </article>
     </main>
