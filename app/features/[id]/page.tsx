@@ -59,6 +59,16 @@ export default async function FeatureDetailPage({
     .maybeSingle();
   const inCart = Boolean(cartRow);
 
+  // 구매자 전용 콘텐츠는 요청한 사용자의 세션으로 조회한다.
+  // feature_contents의 RLS 정책이 결제 완료 여부를 판정하므로,
+  // 별도의 구매 검사 없이 결과가 있으면 구매자, 없으면 미구매자다.
+  const { data: contentRow } = await supabase
+    .from("feature_contents")
+    .select("content")
+    .eq("feature_id", feature.id)
+    .maybeSingle();
+  const content = contentRow?.content ?? null;
+
   return (
     <main className="mx-auto max-w-layout-md px-field-md py-section-md sm:py-section-lg">
       <Link
@@ -90,14 +100,22 @@ export default async function FeatureDetailPage({
           </p>
         </section>
 
-        {/* 콘텐츠 영역 — 실제 콘텐츠(content)는 구매 후에만 제공한다. */}
+        {/* 콘텐츠 영역 — 구매자에게만 본문을 보여주고, 그 외에는 안내를 보여준다. */}
         <section className="mt-field-lg">
           <h2 className="text-title-3 tracking-tight text-foreground">콘텐츠</h2>
-          <div className="mt-inline-lg flex min-h-40 items-center justify-center rounded-2xl border border-dashed border-border bg-card p-field-lg text-center">
-            <p className="text-body-md text-muted-foreground">
-              콘텐츠는 구매 후 제공됩니다
-            </p>
-          </div>
+          {content ? (
+            <div className="mt-inline-lg rounded-2xl border border-border bg-card p-field-lg">
+              <p className="whitespace-pre-wrap text-pretty text-body-md text-foreground">
+                {content}
+              </p>
+            </div>
+          ) : (
+            <div className="mt-inline-lg flex min-h-40 items-center justify-center rounded-2xl border border-dashed border-border bg-card p-field-lg text-center">
+              <p className="text-body-md text-muted-foreground">
+                콘텐츠는 구매 후 제공됩니다
+              </p>
+            </div>
+          )}
         </section>
 
         {/* 바로 구매 / 장바구니 담기 — 각 버튼은 아래에 자기 오류 메시지를 쌓는다. */}
