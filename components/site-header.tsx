@@ -6,10 +6,10 @@ import { CartIcon, GitHubIcon, Logo } from "@/components/icons";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useCart } from "@/components/cart-context";
 import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
 
 const NAV = [
   { label: "Marketplace", href: "#marketplace" },
-  { label: "기능 목록", href: "/features" },
   { label: "How it works", href: "#how" },
   { label: "Features", href: "#features" },
   { label: "Pricing", href: "#pricing" },
@@ -40,7 +40,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
   return (
     <header className="sticky top-0 z-header border-b border-border/80 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-gnb max-w-layout-lg items-center justify-between px-field-md">
-        <a href="#top" className="flex items-center gap-inline-md">
+        <Link href="/" className="flex items-center gap-inline-md">
           <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Logo className="size-5" />
           </span>
@@ -50,7 +50,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
           <span className="hidden rounded-full border border-border px-field-sm py-text-xs font-mono text-caption text-muted-foreground sm:inline">
             beta
           </span>
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-text-xs md:flex">
           {NAV.map((item) => (
@@ -66,13 +66,6 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
 
         <div className="flex items-center gap-inline-md">
           <ThemeToggle />
-          <a
-            href="#"
-            aria-label="GitHub repository"
-            className="hidden size-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-neutral-700 hover:text-neutral-100 sm:flex"
-          >
-            <GitHubIcon className="size-4.5" />
-          </a>
           {user ? (
             <div className="hidden items-center gap-inline-md sm:flex">
               <a
@@ -120,12 +113,12 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
               로그인
             </a>
           )}
-          <a
-            href="#marketplace"
+          <Link
+            href="/features"
             className="hidden rounded-lg bg-primary px-field-md py-field-sm text-label-lg text-primary-foreground transition-opacity hover:opacity-90 sm:inline-block"
           >
-            Browse plugs
-          </a>
+            기능 둘러보기
+          </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -214,13 +207,13 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
               로그인
             </a>
           )}
-          <a
-            href="#marketplace"
+          <Link
+            href="/features"
             onClick={() => setOpen(false)}
             className="mt-inline-md block rounded-lg bg-primary px-field-md py-field-sm text-center text-label-lg text-primary-foreground"
           >
-            Browse plugs
-          </a>
+            기능 둘러보기
+          </Link>
         </nav>
       )}
     </header>

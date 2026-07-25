@@ -60,7 +60,7 @@ export function Hero() {
                 href="#marketplace"
                 className="flex h-11 flex-1 items-center justify-center gap-inline-md rounded-xl bg-primary p-field-md text-label-lg text-primary-foreground transition-opacity hover:opacity-90"
               >
-                마켓플레이스 둘러보기
+                기능 둘러보기
                 <ArrowIcon className="size-4" />
               </a>
               <a
