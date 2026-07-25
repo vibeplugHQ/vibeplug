@@ -80,22 +80,28 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                   </span>
                 )}
               </a>
-              {user.avatarUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element -- 구글 아바타는 외부 URL이라 next/image 원격 설정 없이 그대로 표시
-                <img
-                  src={user.avatarUrl}
-                  alt={user.name}
-                  referrerPolicy="no-referrer"
-                  className="size-8 rounded-full border border-border object-cover"
-                />
-              ) : (
-                <span className="flex size-8 items-center justify-center rounded-full border border-border bg-card text-label-md text-muted-foreground">
-                  {user.name.charAt(0)}
+              <Link
+                href="/mypage"
+                aria-label="마이페이지"
+                className="flex items-center gap-inline-md rounded-lg transition-opacity hover:opacity-80"
+              >
+                {user.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- 구글 아바타는 외부 URL이라 next/image 원격 설정 없이 그대로 표시
+                  <img
+                    src={user.avatarUrl}
+                    alt={user.name}
+                    referrerPolicy="no-referrer"
+                    className="size-8 rounded-full border border-border object-cover"
+                  />
+                ) : (
+                  <span className="flex size-8 items-center justify-center rounded-full border border-border bg-card text-label-md text-muted-foreground">
+                    {user.name.charAt(0)}
+                  </span>
+                )}
+                <span className="max-w-32 truncate text-label-lg text-foreground">
+                  {user.name}
                 </span>
-              )}
-              <span className="max-w-32 truncate text-label-lg text-foreground">
-                {user.name}
-              </span>
+              </Link>
               <button
                 type="button"
                 onClick={handleLogout}
@@ -156,7 +162,11 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
           ))}
           {user ? (
             <div className="mt-text-sm">
-              <div className="flex items-center gap-inline-md px-field-sm py-field-sm">
+              <Link
+                href="/mypage"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-inline-md rounded-lg px-field-sm py-field-sm transition-colors hover:bg-neutral-800/40"
+              >
                 {user.avatarUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element -- 구글 아바타는 외부 URL이라 next/image 원격 설정 없이 그대로 표시
                   <img
@@ -173,7 +183,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                 <span className="truncate text-label-lg text-foreground">
                   {user.name}
                 </span>
-              </div>
+              </Link>
               <a
                 href="/cart"
                 onClick={() => setOpen(false)}

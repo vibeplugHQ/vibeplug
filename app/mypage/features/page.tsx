@@ -21,6 +21,7 @@ export default async function FeaturesPage() {
 
   const isOperator = profile?.role === "운영자";
   const isContributor = profile?.role === "컨트리뷰터";
+  const isRegularMember = profile?.role === "일반회원";
 
   // 목록에 내려줄 상품을 역할별로 고른다.
   // features의 SELECT 정책은 전체 공개라 화면 단계에서 걸러야 한다.
@@ -75,17 +76,28 @@ export default async function FeaturesPage() {
           lockedCategory={UI_COMPONENT_CATEGORY}
         />
       ) : (
-        <p className="border border-border bg-card p-field-lg text-body-md text-muted-foreground">
-          상품 등록 권한이 없습니다.
-        </p>
+        <div className="flex flex-col items-start gap-field-md border border-border bg-card p-field-lg">
+          <p className="text-body-md text-muted-foreground">
+            상품 등록 권한이 없습니다.
+          </p>
+          <button
+            type="button"
+            className="rounded-lg bg-primary px-field-md py-field-sm text-label-lg text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            판매자 신청하기
+          </button>
+        </div>
       )}
 
-      <FeatureList
-        features={features}
-        categories={categories}
-        canManage={canManage}
-        lockedCategory={isContributor ? UI_COMPONENT_CATEGORY : undefined}
-      />
+      {/* 일반회원에게는 기능 목록을 표시하지 않는다. */}
+      {!isRegularMember && (
+        <FeatureList
+          features={features}
+          categories={categories}
+          canManage={canManage}
+          lockedCategory={isContributor ? UI_COMPONENT_CATEGORY : undefined}
+        />
+      )}
     </div>
   );
 }
