@@ -17,6 +17,7 @@ type CartContextValue = {
   count: number;
   add: (featureId: string) => Promise<CartResult>;
   remove: (featureId: string) => Promise<CartResult>;
+  setCount: (count: number) => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -65,7 +66,7 @@ export function CartProvider({
   );
 
   return (
-    <CartContext.Provider value={{ count, add, remove }}>
+    <CartContext.Provider value={{ count, add, remove, setCount }}>
       {children}
     </CartContext.Provider>
   );

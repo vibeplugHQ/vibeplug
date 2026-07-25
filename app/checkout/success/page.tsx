@@ -5,6 +5,7 @@ import { requireUser } from "@/lib/auth";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { formatPrice } from "@/components/feature-card";
 import { confirmTossPayment } from "@/lib/toss";
+import { CartSync } from "./cart-sync";
 
 export const metadata: Metadata = {
   title: "결제 완료 — Vibeplug",
@@ -127,14 +128,26 @@ export default async function CheckoutSuccessPage({
       .in("feature_id", featureIds);
   }
 
+  // 장바구니를 비운 뒤 실제 남은 개수를 세어, GNB 뱃지를 이 값으로 맞춘다.
+  // (주문에 담기지 않았던 다른 기능이 장바구니에 남아 있을 수 있으므로 다시 센다.)
+  const { count: remainingCartCount } = await admin
+    .from("cart")
+    .select("feature_id", { count: "exact", head: true })
+    .eq("user_id", user.id);
+
   // 여기까지 전부 성공했을 때만 성공 화면을 보여 준다. 전달받은 원시 값 대신
   // 주문한 기능들의 이름과 결제 금액을 보여 준다.
   const featureNames = order.order_items.map(
     (item) => item.feature?.name ?? "알 수 없는 기능",
   );
 
+  // "구매한 기능 보기" 버튼이 향할 기능 상세 페이지. 주문의 첫 기능으로 연결한다.
+  const detailFeatureId = featureIds[0] ?? null;
+
   return (
     <main className="mx-auto max-w-layout-md px-field-md py-section-md sm:py-section-lg">
+      {/* 서버가 비운 장바구니를 GNB 뱃지에 즉시 반영한다. */}
+      <CartSync count={remainingCartCount ?? 0} />
       <article className="mt-grid-gutter-x">
         <header className="border-b border-border pb-field-lg">
           <span className="inline-flex w-fit items-center rounded-full border border-border px-field-sm py-text-xs text-caption text-success">
@@ -170,7 +183,7 @@ export default async function CheckoutSuccessPage({
 
         <div className="mt-field-lg flex flex-wrap items-center gap-field-md">
           <Link
-            href="/mypage/features"
+            href={detailFeatureId ? `/features/${detailFeatureId}` : "/mypage/features"}
             className="inline-flex h-12 items-center justify-center bg-primary px-field-lg text-label-lg text-primary-foreground transition-opacity hover:opacity-90"
           >
             구매한 기능 보기
