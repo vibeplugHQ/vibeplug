@@ -27,6 +27,11 @@ export const metadata: Metadata = {
   description:
     "프론트엔드와 API, 데이터베이스가 한 세트로 — 명령어 한 줄로 설치하고, 코드는 온전히 당신의 것이 됩니다.",
   metadataBase: new URL("https://vibeplug.app"),
+  verification: {
+    other: {
+      "naver-site-verification": "fb9f3c6acc5bba1869ec536921feb1b3c030f000",
+    },
+  },
   openGraph: {
     title: "바이브플러그 — 완성된 기능을 내 프로젝트에",
     description:
