@@ -4,8 +4,8 @@ import Link from "next/link";
 import { FeatureCard, type Feature } from "@/components/feature-card";
 
 export const metadata: Metadata = {
-  title: "기능 목록 — Vibeplug",
-  description: "판매 중인 기능을 둘러보세요.",
+  title: "기능 목록 — 바이브플러그",
+  description: "필요한 기능을 둘러보세요.",
 };
 
 type FeatureRow = Feature & { id: string };

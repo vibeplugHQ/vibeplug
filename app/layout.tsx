@@ -23,14 +23,14 @@ const jetbrainsMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Vibeplug — The full-stack shadcn",
+  title: "바이브플러그 — 완성된 기능을 내 프로젝트에",
   description:
-    "A marketplace of full-stack features you copy, own, and ship. Auth, payments, AI, realtime — frontend, API, and database in one command: npx vibeplug add.",
-  metadataBase: new URL("https://vibeplug.dev"),
+    "프론트엔드와 API, 데이터베이스가 한 세트로 — 명령어 한 줄로 설치하고, 코드는 온전히 당신의 것이 됩니다.",
+  metadataBase: new URL("https://vibeplug.app"),
   openGraph: {
-    title: "Vibeplug — The full-stack shadcn",
+    title: "바이브플러그 — 완성된 기능을 내 프로젝트에",
     description:
-      "Copy-paste full-stack features for your app. Frontend, API, and database wired together. One command to install.",
+      "프론트엔드와 API와 데이터베이스가 한 세트로 — 명령어 한 줄로 설치하고, 코드는 온전히 당신의 것이 됩니다.",
     type: "website",
   },
 };
