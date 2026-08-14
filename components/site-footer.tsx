@@ -64,8 +64,15 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-grid-gutter-x flex flex-col items-center justify-between gap-field-md border-t border-border pt-field-lg sm:flex-row">
-          <p className="font-mono text-caption text-neutral-500">
-            © 2026 Vibeplug · MIT License
+          <p className="font-mono text-caption text-neutral-600">
+            © 2026 파토스(pathos). All rights reserved
+            <span className="mx-inline-sm">|</span>
+            <a
+              href="mailto:support@vibeplug.app"
+              className="transition-colors hover:text-neutral-400"
+            >
+              support@vibeplug.app
+            </a>
           </p>
           <div className="flex items-center gap-field-md text-caption text-neutral-500">
             <a href="#" className="hover:text-neutral-300">
